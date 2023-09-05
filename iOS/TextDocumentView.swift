@@ -180,7 +180,14 @@ class TextDocumentView: UIScrollView,
             layer.setNeedsLayout()
         }
     }
-    
+
+    override var bounds: CGRect {
+        didSet {
+            textLayoutManager?.textViewportLayoutController.layoutViewport()
+            updateContentSizeIfNeeded()
+        }
+    }
+
     override init(frame: CGRect) {
         fragmentLayerMap = .weakToWeakObjects()
         
@@ -216,7 +223,7 @@ class TextDocumentView: UIScrollView,
             height = layoutFragment.layoutFragmentFrame.maxY
             return false // stop
         }
-        height = max(height, contentSize.height)
+
         if abs(currentHeight - height) > 1e-10 {
             let contentSize = CGSize(width: self.bounds.width, height: height)
             self.contentSize = contentSize
