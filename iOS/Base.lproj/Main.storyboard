@@ -38,19 +38,43 @@
                         <viewLayoutGuide key="frameLayoutGuide" id="Uub-IP-g1Q"/>
                     </scrollView>
                     <navigationItem key="navigationItem" title="Layout Text with TextKit 2" id="Vpr-FH-P2r">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="58U-tM-npa">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" id="5g5-Lp-cCp">
-                                <rect key="frame" x="341.5" y="2" width="52.5" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <imageReference key="image" image="text.bubble" catalog="system"/>
-                                </buttonConfiguration>
-                            </button>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Item" id="58U-tM-npa">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" id="5g5-Lp-cCp">
+                                    <rect key="frame" x="341.5" y="2" width="52.5" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain">
+                                        <imageReference key="image" image="text.bubble" catalog="system"/>
+                                    </buttonConfiguration>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem image="rectangle.on.rectangle" catalog="system" id="Qnd-bT-qMx">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" id="ATY-p8-rBL">
+                                    <rect key="frame" x="278" y="2" width="55.5" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain">
+                                        <imageReference key="image" image="rectangle.on.rectangle" catalog="system"/>
+                                    </buttonConfiguration>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem image="tortoise" catalog="system" id="OK3-9l-EDM">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" id="R1g-hT-l3x">
+                                    <rect key="frame" x="205" y="2" width="65" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain">
+                                        <imageReference key="image" image="tortoise" catalog="system"/>
+                                    </buttonConfiguration>
+                                </button>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="toggleComments" destination="5g5-Lp-cCp" id="NdH-iO-iID"/>
+                        <outlet property="toggleLayerFrames" destination="ATY-p8-rBL" id="JfR-Xa-HAA"/>
+                        <outlet property="toggleSlowAnimation" destination="R1g-hT-l3x" id="6gZ-zQ-pbZ"/>
                         <outlet property="view" destination="btK-FK-fNV" id="zjt-4g-yiz"/>
                     </connections>
                 </viewController>
@@ -153,7 +177,9 @@
         <image name="hand.thumbsdown.fill" catalog="system" width="128" height="121"/>
         <image name="hand.thumbsup.fill" catalog="system" width="128" height="121"/>
         <image name="questionmark.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="rectangle.on.rectangle" catalog="system" width="128" height="98"/>
         <image name="text.bubble" catalog="system" width="128" height="110"/>
+        <image name="tortoise" catalog="system" width="128" height="65"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

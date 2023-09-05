@@ -73,6 +73,11 @@ class TextDocumentView: UIScrollView,
             }
         }
         
+        if textLayoutFragmentLayer.showLayerFrames != showLayerFrames {
+            textLayoutFragmentLayer.showLayerFrames = showLayerFrames
+            textLayoutFragmentLayer.setNeedsDisplay()
+        }
+
         contentLayer.addSublayer(textLayoutFragmentLayer)
     }
     

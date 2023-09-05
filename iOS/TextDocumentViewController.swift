@@ -19,6 +19,8 @@ class TextDocumentViewController: UIViewController,
     var commentColor: UIColor { return .white }
     
     @IBOutlet var toggleComments: UIButton!
+    @IBOutlet var toggleLayerFrames: UIButton!
+    @IBOutlet var toggleSlowAnimation: UIButton!
 
     var textDocumentView: TextDocumentView {
         get {
@@ -48,13 +50,28 @@ class TextDocumentViewController: UIViewController,
         }
         
         // This is called when the toggle comment button needs an update.
-        let toggleUpdateHandler: (UIButton) -> Void = { [self] button in
+        let toggleCommentsUpdateHandler: (UIButton) -> Void = { [self] button in
             button.configuration?.image =
                 button.isSelected ? UIImage(systemName: "text.bubble.fill") : UIImage(systemName: "text.bubble")
             self.showComments = button.isSelected
-            textDocumentView.layer.setNeedsLayout()
+            self.textDocumentView.layer.setNeedsLayout()
         }
-        toggleComments.configurationUpdateHandler = toggleUpdateHandler
+        toggleComments.configurationUpdateHandler = toggleCommentsUpdateHandler
+
+        let toggleLayerFramesHandler: (UIButton) -> Void = { [self] button in
+            button.configuration?.image =
+                button.isSelected ? UIImage(systemName: "rectangle.on.rectangle.fill") : UIImage(systemName: "rectangle.on.rectangle")
+            self.textDocumentView.showLayerFrames = button.isSelected
+            self.textDocumentView.layer.setNeedsLayout()
+        }
+        toggleLayerFrames.configurationUpdateHandler = toggleLayerFramesHandler
+
+        let toggleSlowAnimationUpdateHandler: (UIButton) -> Void = { [self] button in
+            button.configuration?.image =
+                button.isSelected ? UIImage(systemName: "tortoise.fill") : UIImage(systemName: "tortoise")
+            self.textDocumentView.slowAnimations = button.isSelected
+        }
+        toggleSlowAnimation.configurationUpdateHandler = toggleSlowAnimationUpdateHandler
 
         textDocumentView.textContentStorage = textContentStorage
         textDocumentView.textLayoutManager = textLayoutManager
