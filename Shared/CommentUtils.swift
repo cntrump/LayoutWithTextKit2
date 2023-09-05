@@ -1,5 +1,5 @@
 /*
-See LICENSE folder for this sample’s licensing information.
+See the LICENSE.txt file for this sample’s licensing information.
 
 Abstract:
 Reaction button symbol names and accessibility labels.
@@ -13,7 +13,7 @@ extension NSAttributedString.Key {
     }
 }
 
-enum Reaction: Int {
+enum Reaction: Int, CaseIterable {
     case none = 0, thumbsUp, smilingFace, questionMark, thumbsDown
     
     var symbolName: String {

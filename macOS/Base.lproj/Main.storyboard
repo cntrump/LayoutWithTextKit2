@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19115.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19115.1"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -764,7 +765,7 @@
         <!--Text Document View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="5gI-5U-AMq" customClass="TextDocumentViewController" customModule="LayoutTextWithTextKit2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TextDocumentViewController" id="5gI-5U-AMq" customClass="TextDocumentViewController" customModule="LayoutTextWithTextKit2" customModuleProvider="target" sceneMemberID="viewController">
                     <scrollView key="view" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" id="t9x-rt-BpS">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -793,11 +794,12 @@
                 </viewController>
                 <customObject id="2Tp-Fl-jBw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="75" y="694"/>
         </scene>
         <!--Comment Popover View Controller-->
         <scene sceneID="8kd-Ak-FRI">
             <objects>
+                <customObject id="phz-lz-iBl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="CommentPopoverViewController" id="ID9-IX-2Im" customClass="CommentPopoverViewController" customModule="LayoutTextWithTextKit2" customModuleProvider="target" sceneMemberID="viewController">
                     <visualEffectView key="view" wantsLayer="YES" blendingMode="withinWindow" material="contentBackground" state="followsWindowActiveState" id="ByX-BJ-HTB">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="102"/>
@@ -821,7 +823,7 @@
                                 <rect key="frame" x="20" y="11" width="400" height="30"/>
                                 <subviews>
                                     <button tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="r7S-ry-ppR" customClass="ReactionButton" customModule="LayoutTextWithTextKit2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.5" width="70.5" height="31"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="ECh-2C-gix"/>
                                         </constraints>
@@ -836,14 +838,14 @@
                                         </connections>
                                     </button>
                                     <button tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="zUY-hM-sdw" customClass="ReactionButton" customModule="LayoutTextWithTextKit2" customModuleProvider="target">
-                                        <rect key="frame" x="110" y="0.5" width="70" height="30"/>
+                                        <rect key="frame" x="110" y="0.0" width="70" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="14K-yo-mB9"/>
                                         </constraints>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Uif-AO-5x3">
                                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system" size="24"/>
-                                            <imageReference key="image" image="face.smiling.fill" catalog="system" symbolScale="large"/>
+                                            <imageReference key="image" image="face.smiling.inverse" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="systemYellowColor" catalog="System" colorSpace="catalog"/>
                                         <connections>
@@ -851,7 +853,7 @@
                                         </connections>
                                     </button>
                                     <button tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="gWJ-jR-OLo" customClass="ReactionButton" customModule="LayoutTextWithTextKit2" customModuleProvider="target">
-                                        <rect key="frame" x="220" y="0.5" width="70" height="30"/>
+                                        <rect key="frame" x="220" y="0.0" width="70" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="8Ja-MB-lHK"/>
                                         </constraints>
@@ -866,7 +868,7 @@
                                         </connections>
                                     </button>
                                     <button tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="EpP-wP-c8A" customClass="ReactionButton" customModule="LayoutTextWithTextKit2" customModuleProvider="target">
-                                        <rect key="frame" x="330" y="-1" width="70.5" height="31"/>
+                                        <rect key="frame" x="330" y="0.0" width="70" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="xiP-9L-66j"/>
                                         </constraints>
@@ -913,21 +915,20 @@
                         <outlet property="commentField" destination="LiU-no-gzc" id="Axe-cf-1DR"/>
                     </connections>
                 </viewController>
-                <customObject id="phz-lz-iBl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-470" y="572"/>
         </scene>
     </scenes>
     <resources>
-        <image name="face.smiling.fill" catalog="system" width="19" height="19"/>
-        <image name="hand.thumbsdown.fill" catalog="system" width="20" height="20"/>
-        <image name="hand.thumbsup.fill" catalog="system" width="20" height="20"/>
-        <image name="questionmark.circle.fill" catalog="system" width="19" height="19"/>
+        <image name="face.smiling.inverse" catalog="system" width="20" height="20"/>
+        <image name="hand.thumbsdown.fill" catalog="system" width="19" height="20"/>
+        <image name="hand.thumbsup.fill" catalog="system" width="19" height="20"/>
+        <image name="questionmark.circle.fill" catalog="system" width="20" height="20"/>
         <image name="rectangle.fill.on.rectangle.fill" catalog="system" width="19" height="15"/>
         <image name="rectangle.on.rectangle" catalog="system" width="19" height="15"/>
         <image name="text.bubble" catalog="system" width="17" height="16"/>
         <image name="text.bubble.fill" catalog="system" width="17" height="16"/>
-        <image name="tortoise" catalog="system" width="24" height="13"/>
+        <image name="tortoise" catalog="system" width="25" height="13"/>
         <image name="tortoise.fill" catalog="system" width="24" height="13"/>
     </resources>
 </document>

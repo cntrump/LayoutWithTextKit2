@@ -1,5 +1,5 @@
 /*
-See LICENSE folder for this sample’s licensing information.
+See the LICENSE.txt file for this sample’s licensing information.
 
 Abstract:
 NSView subclass for managing text in the app's document.
@@ -216,8 +216,6 @@ class TextDocumentView: NSView, CALayerDelegate, NSTextViewportLayoutControllerD
     func updateContentSizeIfNeeded() {
         let currentHeight = bounds.height
         var height: CGFloat = 0
-        let endRange = NSTextRange(location: textLayoutManager!.documentRange.endLocation)
-        textLayoutManager!.ensureLayout(for: endRange)
         textLayoutManager!.enumerateTextLayoutFragments(from: textLayoutManager!.documentRange.endLocation,
                                                         options: [.reverse, .ensuresLayout]) { layoutFragment in
             height = layoutFragment.layoutFragmentFrame.maxY
@@ -253,7 +251,7 @@ class TextDocumentView: NSView, CALayerDelegate, NSTextViewportLayoutControllerD
         }
         if layoutYPoint != 0 {
             let adjustmentDelta = bounds.minY - layoutYPoint
-            viewportLayoutController.adjustViewport(adjustmentDelta)
+            viewportLayoutController.adjustViewport(byVerticalOffset: adjustmentDelta)
             scroll(CGPoint(x: scrollView!.contentView.bounds.minX, y: scrollView!.contentView.bounds.minY + adjustmentDelta))
         }
     }
@@ -299,10 +297,11 @@ class TextDocumentView: NSView, CALayerDelegate, NSTextViewportLayoutControllerD
         let nav = textLayoutManager!.textSelectionNavigation
         
         textLayoutManager!.textSelections = nav.textSelections(interactingAt: point,
-                                                               containerLocation: textLayoutManager!.documentRange.location,
+                                                               inContainerAt: textLayoutManager!.documentRange.location,
                                                                anchors: [],
                                                                modifiers: [],
-                                                               selecting: true, bounds: .zero)
+                                                               selecting: true,
+                                                               bounds: .zero)
         layer?.setNeedsLayout()
     }
 
@@ -312,7 +311,7 @@ class TextDocumentView: NSView, CALayerDelegate, NSTextViewportLayoutControllerD
         let nav = textLayoutManager!.textSelectionNavigation
         
         textLayoutManager!.textSelections = nav.textSelections(interactingAt: point,
-                                                               containerLocation: textLayoutManager!.documentRange.location,
+                                                               inContainerAt: textLayoutManager!.documentRange.location,
                                                                anchors: textLayoutManager!.textSelections,
                                                                modifiers: .extend,
                                                                selecting: true,
@@ -360,7 +359,7 @@ class TextDocumentView: NSView, CALayerDelegate, NSTextViewportLayoutControllerD
     override func centerSelectionInVisibleArea(_ sender: Any?) {
         if !textLayoutManager!.textSelections.isEmpty {
             let viewportOffset =
-                textLayoutManager!.textViewportLayoutController.relocateViewport(textLayoutManager!.textSelections[0].textRanges[0].location)
+            textLayoutManager!.textViewportLayoutController.relocateViewport(to: textLayoutManager!.textSelections[0].textRanges[0].location)
             scroll(CGPoint(x: 0, y: viewportOffset))
         }
     }

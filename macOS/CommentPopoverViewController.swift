@@ -1,5 +1,5 @@
 /*
-See LICENSE folder for this sample’s licensing information.
+See the LICENSE.txt file for this sample’s licensing information.
 
 Abstract:
 NSViewController subclass that contains the content for the comment popover.
@@ -71,10 +71,10 @@ class CommentPopoverViewController: NSViewController, NSPopoverDelegate {
                 oldReactionButton.state = .off
             }
             selectedReaction = newReaction!
-         } else {
+        } else {
              // User toggled the current reaction button to off.
              selectedReaction = .none
-         }
+        }
     }
     
 }

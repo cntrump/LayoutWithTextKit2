@@ -2,20 +2,29 @@
 See the LICENSE.txt file for this sample’s licensing information.
 
 Abstract:
-Primary NSViewController subclass for the sample's Document.
+The application's primary view controller.
 */
 
-import Cocoa
+import UIKit
 
-class TextDocumentViewController: NSViewController, NSTextContentManagerDelegate, NSTextContentStorageDelegate {
+class TextDocumentViewController: UIViewController,
+                                  NSTextContentManagerDelegate,
+                                  NSTextContentStorageDelegate,
+                                  UIPopoverPresentationControllerDelegate {
 
     private var textContentStorage: NSTextContentStorage
     private var textLayoutManager: NSTextLayoutManager
     private var fragmentForCurrentComment: NSTextLayoutFragment?
     private var showComments = true
-    var commentColor: NSColor { return .white }
+    var commentColor: UIColor { return .white }
     
-    @IBOutlet private weak var textDocumentView: TextDocumentView!
+    @IBOutlet var toggleComments: UIButton!
+
+    var textDocumentView: TextDocumentView {
+        get {
+            return (view as? TextDocumentView)!
+        }
+    }
 
     required init?(coder: NSCoder) {
         textLayoutManager = NSTextLayoutManager()
@@ -23,66 +32,48 @@ class TextDocumentViewController: NSViewController, NSTextContentManagerDelegate
         super.init(coder: coder)
         textContentStorage.delegate = self
         textContentStorage.addTextLayoutManager(textLayoutManager)
-        let textContainer = NSTextContainer(size: NSSize(width: 200, height: 0))
+        let textContainer = NSTextContainer(size: CGSize(width: 200, height: 0))
         textLayoutManager.textContainer = textContainer
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if textContentStorage.textStorage!.length == 0 {
-            if let docURL = Bundle.main.url(forResource: "menu", withExtension: "rtf") {
-                do {
-                    try textContentStorage.textStorage?.read(from: docURL, documentAttributes: nil, error: ())
-                } catch {
-                    // Could not read menu content.
-                }
+        
+        if let docURL = Bundle.main.url(forResource: "menu", withExtension: "rtf") {
+            do {
+                try textContentStorage.textStorage?.read(from: docURL, documentAttributes: nil)
+            } catch {
+                // Could not read menu content.
             }
         }
+        
+        // This is called when the toggle comment button needs an update.
+        let toggleUpdateHandler: (UIButton) -> Void = { [self] button in
+            button.configuration?.image =
+                button.isSelected ? UIImage(systemName: "text.bubble.fill") : UIImage(systemName: "text.bubble")
+            self.showComments = button.isSelected
+            textDocumentView.layer.setNeedsLayout()
+        }
+        toggleComments.configurationUpdateHandler = toggleUpdateHandler
+
         textDocumentView.textContentStorage = textContentStorage
         textDocumentView.textLayoutManager = textLayoutManager
         textDocumentView.updateContentSizeIfNeeded()
-        textDocumentView.documentViewController = self
+        textDocumentView.viewController = self
     }
     
-    // Commenting.
-    @IBAction func toggleComments(_ sender: NSButton) {
-        showComments = (sender.state == .on)
-        textDocumentView.layer?.setNeedsLayout()
-    }
+    // Commenting
     
-    func addComment(_ comment: NSAttributedString) {
-        textDocumentView.addComment(comment, below: fragmentForCurrentComment!)
-        fragmentForCurrentComment = nil
-    }
-    
-    var commentFont: NSFont {
-        var commentFont = NSFont.preferredFont(forTextStyle: .title3, options: [:])
-        let commentFontDescriptor = commentFont.fontDescriptor.withSymbolicTraits(.italic)
-        commentFont = NSFont(descriptor: commentFontDescriptor, size: commentFont.pointSize)!
+    var commentFont: UIFont {
+        var commentFont = UIFont.preferredFont(forTextStyle: .title3)
+        let commentFontDescriptor = commentFont.fontDescriptor.withSymbolicTraits(.traitItalic)
+        commentFont = UIFont(descriptor: commentFontDescriptor!, size: commentFont.pointSize)
         return commentFont
     }
     
-    // Debug UI.
-    @IBAction func toggleLayerFrames(_ sender: NSButton) {
-        // Turn on/off viewing layer frames.
-        textDocumentView.showLayerFrames = (sender.state == .on)
-        textDocumentView.layer?.setNeedsLayout()
-    }
-    @IBAction func toggleSlowAnimation(_ sender: NSButton) {
-        // Turn on/off slow animation of each layer.
-        textDocumentView.slowAnimations = (sender.state == .on)
-    }
-    
-    // Popover management.
-    func showCommentPopover(for layoutFragment: NSTextLayoutFragment) {
-        fragmentForCurrentComment = layoutFragment
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        if let popoverVC = storyboard.instantiateController(withIdentifier: "CommentPopoverViewController") as? CommentPopoverViewController {
-            popoverVC.documentViewController = self
-            present(popoverVC, asPopoverRelativeTo: layoutFragment.layoutFragmentFrame,
-                    of: textDocumentView,
-                    preferredEdge: .maxY, behavior: .transient)
-        }
+    func addComment(comment: NSAttributedString) {
+        textDocumentView.addComment(comment, below: fragmentForCurrentComment!)
+        fragmentForCurrentComment = nil
     }
     
     // MARK: - NSTextContentManagerDelegate
@@ -130,4 +121,28 @@ class TextDocumentViewController: NSViewController, NSTextContentManagerDelegate
         return paragraphWithDisplayAttributes
     }
     
+    // MARK: - Popover Management
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none // This makes the comment popover view controller present as a popover on iPhone.
+    }
+    
+    func showCommentPopoverForLayoutFragment(_ layoutFragment: NSTextLayoutFragment) {
+        fragmentForCurrentComment = layoutFragment
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let popoverVC = storyboard.instantiateViewController(withIdentifier: "CommentPopoverViewController") as? CommentPopoverViewController {
+            popoverVC.viewController = self
+            popoverVC.modalPresentationStyle = .popover
+            popoverVC.preferredContentSize = CGSize(width: 420.0, height: 100.0)
+            popoverVC.popoverPresentationController!.sourceView = self.textDocumentView
+            popoverVC.popoverPresentationController!.sourceRect = layoutFragment.layoutFragmentFrame
+            popoverVC.popoverPresentationController!.permittedArrowDirections = .any
+            popoverVC.popoverPresentationController!.delegate = self
+            present(popoverVC, animated: true, completion: {
+                //..
+            })
+        }
+    }
+    
 }
+

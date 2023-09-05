@@ -1,5 +1,5 @@
 /*
-See LICENSE folder for this sample’s licensing information.
+See the LICENSE.txt file for this sample’s licensing information.
 
 Abstract:
 NSTextLayoutFragment subclass to draw the comment bubble.
@@ -15,6 +15,11 @@ import CoreGraphics
 class BubbleLayoutFragment: NSTextLayoutFragment {
     var commentDepth: UInt = 0
 
+    override var leadingPadding: CGFloat { return 20.0 * CGFloat(commentDepth) }
+    override var trailingPadding: CGFloat { return 50 }
+    override var topMargin: CGFloat { return 6 }
+    override var bottomMargin: CGFloat { return 6 }
+    
     private var tightTextBounds: CGRect {
         var fragmentTextBounds = CGRect.null
         for lineFragment in textLineFragments {

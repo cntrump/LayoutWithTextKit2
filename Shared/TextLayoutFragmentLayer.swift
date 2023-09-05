@@ -1,5 +1,5 @@
 /*
-See LICENSE folder for this sample’s licensing information.
+See the LICENSE.txt file for this sample’s licensing information.
 
 Abstract:
 CALayer subclass to draw the outline of each text layout fragment.
@@ -36,6 +36,14 @@ class TextLayoutFragmentLayer: CALayer {
         // The (0, 0) point in layer space should be the anchor point.
         anchorPoint = CGPoint(x: -bounds.origin.x / bounds.size.width, y: -bounds.origin.y / bounds.size.height)
         position = layoutFragment.layoutFragmentFrame.origin
+        var newBounds = bounds
+
+        // On macOS 14 and iOS 17, NSTextLayoutFragment.renderingSurfaceBounds is properly relative to the NSTextLayoutFragment's
+        // interior coordinate system, and so this sample no longer needs the inconsistent x origin adjustment.
+        if #unavailable(iOS 17, macOS 14) {
+            newBounds.origin.x += position.x
+        }
+        bounds = newBounds
         position.x += padding
     }
     
@@ -50,7 +58,9 @@ class TextLayoutFragmentLayer: CALayer {
     }
     
     override init(layer: Any) {
-        let tlfLayer = layer as! TextLayoutFragmentLayer
+        guard let tlfLayer = layer as? TextLayoutFragmentLayer else {
+            fatalError("The type of `layer` needs to be TextLayoutFragmentLayer.")
+        }
         layoutFragment = tlfLayer.layoutFragment
         padding = tlfLayer.padding
         showLayerFrames = tlfLayer.showLayerFrames
